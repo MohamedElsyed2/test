@@ -4,7 +4,7 @@
 #define UART_INT_TX 0x08 //transmit interrupt
 #define UART_INT_RX 0x04 //receive interrupt
 // mask values for uart registers (status and control)
-#define DATA_READY 0x10 //data received in receive register
+#define DATA_READY 0x10  //data received in receive register
 #define XMT_FIFO_FULL 0x40 //transmit fifo (hardware) is full
 #define XMT_FIFO_EMPTY 0x80 //transmit fifo (hardware) is empty
 #define UART_BUF_SIZE 1024 //size of fifo buffer (software)
@@ -39,7 +39,7 @@ struct _arm_uart_buf {
     unsigned char *write_ptr; //pointer to begin of unused buffer in fifo
 } arm_uart_bufs[2]; //two fifos for transmit and receive data
 
-#define TX_FIFO 0 //first fifo is for transmit data , is this from datasheet?????????????????????????????????!!!!!!!!!!!!!!!
+#define TX_FIFO 0 //first fifo is for transmit data 
 #define RX_FIFO 1 //second fifo is for receive data
 //================================================
 //application interface function:
@@ -141,7 +141,7 @@ void uart_irq_interrupt(unsigned long vector)
     }
 }
 //=============================================================================================
-//transmit subroutine of interrupt servive
+//transmit subroutine of interrupt service
 void uart_tx(void)
 {
     int ret;
@@ -175,6 +175,7 @@ void uart_rx(void)
 }
 //=============================================================================================
 //subroutine to get next receive or transmit fifo write pointer
+/* return the address of the recived data , update the write pointer of the recive or transmit buffer*/
 unsigned char * next_ptr(int index)
 {
     unsigned char * rtp;

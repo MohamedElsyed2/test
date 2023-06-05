@@ -3,19 +3,22 @@
 // mask values for uart interrupt register (mask, status and acknowledge)
 #define UART_INT_TX 0x08 //transmit interrupt
 #define UART_INT_RX 0x04 //receive interrupt
+
+/*************************************************/
 // mask values for uart registers (status and control)
 #define DATA_READY 0x10  //data received in receive register
 #define XMT_FIFO_FULL 0x40 //transmit fifo (hardware) is full
 #define XMT_FIFO_EMPTY 0x80 //transmit fifo (hardware) is empty
 #define UART_BUF_SIZE 1024 //size of fifo buffer (software)
 
+/***************************************************************************/
 struct interrupt_registers //uart interrupt hardware registers
 {
     unsigned char *intr_mask; // interrupt mask
     unsigned char *intr_status; // source of interrupts
     unsigned char *intr_ack; // interrupt acknowledge
 };
-/****************************************************/
+/**********************************************************************/
 struct uart_registers //uart hardware registers
 {
     unsigned int *control; // serial configuration reg

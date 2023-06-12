@@ -45,6 +45,7 @@ struct _arm_uart_buf {
 #define TX_FIFO 0 //first fifo is for transmit data 
 #define RX_FIFO 1 //second fifo is for receive data
 //================================================
+
 //application interface function:
 //initialisation of transmit and receive fifo control pointers and hardware pointers
 void init_arm_uart_bufs(void)
@@ -68,11 +69,11 @@ void init_arm_uart_bufs(void)
         {
             case 0: // transmit
                 sptr->beg = sptr->write_ptr = sptr->read_ptr = uart_tx; 
-                sptr->end = uart_tx + UART_BUF_SIZE;
-            break;
+                sptr->end = uart_tx + UART_BUF_SIZE - 1;
+                            break;
             case 1: //recieve
                 sptr->beg = sptr->write_ptr = sptr->read_ptr = uart_rx;
-                sptr->end = uart_rx + UART_BUF_SIZE;
+                sptr->end = uart_rx + UART_BUF_SIZE - 1;
             break;
         }
     }
@@ -107,7 +108,7 @@ int uart_send(unsigned char * buf, int len)
 int bufRead(unsigned char * buf, int index)
 {
     //is receive fifo empty?
-    if ( arm_uart_bufs[index].read_ptr == arm_uart_bufs[index].write_ptr)
+    if ( arm_uart_bufs[index].read_ptr == arm_uart_bufs[index].write_ptr) // arm_uart_bufs[index].end
     {
         //fifo is empty
         *buf = *arm_uart_bufs[index].read_ptr; //read item (dummy!)
@@ -118,6 +119,7 @@ int bufRead(unsigned char * buf, int index)
     *buf = *arm_uart_bufs[index].read_ptr; //read item
     *arm_uart_bufs[index].read_ptr = 0x0; //reset item
     //is read pointer at the end?
+
     if( arm_uart_bufs[index].read_ptr == arm_uart_bufs[index].end)
         //wrap around read pointer to begin
         arm_uart_bufs[index].read_ptr = arm_uart_bufs[index].beg;
